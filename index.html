@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crc-32/1.2.2/crc32.min.js" defer></script>
+  </head>
+  <body>
+    <input id="input-field" type="text">
+    <h3 id="display-panel"></h3>
+  </body>
+  <script defer>
+    const textToCRC32 = text => CRC32.str(`${text.length}:${text}`).toString(16)
+    const textToPrefix = text => text.replace(/[^a-zA-Z]/, '_').replace(/_{2,}/, '_').toLowerCase()
+    const textToKey = text => text === '' ? '?' : `${textToPrefix(text)}_${textToCRC32(text)}`
+    const inputField = document.getElementById('input-field')
+    const displayPanel = document.getElementById('display-panel')
+    inputField.addEventListener('input', evt => {
+      displayPanel.innerText = textToKey(evt.target.value)
+    })
+  </script>
+</html>
